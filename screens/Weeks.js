@@ -1,7 +1,11 @@
-import { Text } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
 const Weeks = () => {
-    return <Text>Weeks</Text>;
+    return (
+        <SafeAreaView>
+            <Text>Hello</Text>
+        </SafeAreaView>
+    );
 };
 
 export default Weeks;

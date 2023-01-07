@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Linking } from 'react-native';
+import { View, Text, StyleSheet, Linking, SafeAreaView } from 'react-native';
 import { COLORS, SIZES, FONTS } from '../assets/theme';
 import { RoundButton } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
@@ -7,13 +7,16 @@ const About = () => {
     const navigation = useNavigation();
 
     return (
-        <View styles={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.title}>About 🤔</Text>
 
             <Text style={styles.text}>
                 Made by{' '}
                 <Text
-                    style={{ color: 'blue' }}
+                    style={{
+                        color: COLORS.primary,
+                        fontFamily: FONTS.semiBold,
+                    }}
                     onPress={() =>
                         Linking.openURL('https://github.com/jasonau3')
                     }
@@ -34,7 +37,7 @@ const About = () => {
                     handlePress={() => navigation.navigate('Home')}
                 />
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -58,6 +61,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     btn_container: {
+        position: 'absolute',
+        bottom: 60,
         alignItems: 'center',
     },
 });
