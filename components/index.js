@@ -1,5 +1,5 @@
 import FocusedStatusBar from './FocusedStatusBar';
-import WorkoutCard from './WorkoutCard';
 import { RoundButton } from './Button';
+import ExerciseCard from './ExerciseCard';
 
-export { FocusedStatusBar, WorkoutCard, RoundButton };
+export { FocusedStatusBar, RoundButton, ExerciseCard };

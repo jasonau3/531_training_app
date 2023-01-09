@@ -14,7 +14,7 @@ const About = () => {
                 Made by{' '}
                 <Text
                     style={{
-                        color: COLORS.primary,
+                        color: COLORS.secondary,
                         fontFamily: FONTS.semiBold,
                     }}
                     onPress={() =>
@@ -23,11 +23,11 @@ const About = () => {
                 >
                     Jason Au
                 </Text>{' '}
-                with ❤ in React Native
+                using React Native
             </Text>
 
             <Text style={styles.text}>
-                Fitness program designed by r/Fitness and Jim Wendler
+                Fitness program by r/Fitness and Jim Wendler "Boring But Big"
             </Text>
 
             <View style={styles.btn_container}>

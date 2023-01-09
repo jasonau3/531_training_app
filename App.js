@@ -5,6 +5,7 @@ import Home from './screens/Home';
 import Weeks from './screens/Weeks';
 import Update_PR from './screens/Update_PR';
 import About from './screens/About';
+import Workout from './screens/Workout_screen';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const App = () => {
             >
                 <Stack.Screen name='Home' component={Home} />
                 <Stack.Screen name='Weeks' component={Weeks} />
+                <Stack.Screen name='Workout' component={Workout} />
                 <Stack.Screen name='Update_PR' component={Update_PR} />
                 <Stack.Screen name='About' component={About} />
             </Stack.Navigator>

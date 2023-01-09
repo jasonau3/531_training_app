@@ -62,8 +62,7 @@ const Home = ({ route }) => {
     //     });
     // }
 
-    console.log(personalRecords);
-
+    // if no asynch data is found, generate it to some default
     if (Object.keys(personalRecords).length == 0) {
         setPersonalRecords(() => {
             return [
@@ -74,8 +73,6 @@ const Home = ({ route }) => {
             ];
         });
     }
-
-    console.log(personalRecords);
 
     const navigation = useNavigation();
 
@@ -117,7 +114,9 @@ const Home = ({ route }) => {
                 <RoundButton
                     text='Select Week'
                     width={260}
-                    handlePress={() => navigation.navigate('Weeks')}
+                    handlePress={() =>
+                        navigation.navigate('Weeks', { personalRecords })
+                    }
                 />
                 <RoundButton
                     text='Update PR'
