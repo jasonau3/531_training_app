@@ -5,12 +5,49 @@ import {
     View,
     StatusBar,
     FlatList,
+    SectionList,
 } from 'react-native';
 import { COLORS, SIZES, FONTS } from '../assets/theme';
 import { RoundButton } from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { ExerciseCard } from '../components';
+
+const ExerciseHeader = ({ data }) => {
+    // if theres percentage max data, add a header for it
+    let percentage_text;
+    if (data.data[0].percentage) {
+        percentage_text = <Text style={styles.table_cell}>%</Text>;
+    }
+
+    // // if theres weight data, add a header for it
+    let weight_text;
+    if (data.data[0].percentage) {
+        weight_text = <Text style={styles.table_cell}>Weight</Text>;
+    }
+
+    return (
+        <View>
+            <Text style={styles.exercise_text}>{data.name}</Text>
+            <View style={styles.table_row}>
+                {percentage_text}
+                {weight_text}
+                <Text style={styles.table_cell}>Sets</Text>
+                <Text style={styles.table_cell}>Reps</Text>
+            </View>
+        </View>
+    );
+};
+
+const ExerciseItem = ({ data }) => {
+    return (
+        <View style={styles.table_row}>
+            <Text style={styles.table_cell}>{data.percentage}</Text>
+            <Text style={styles.table_cell}>{data.weight}</Text>
+            <Text style={styles.table_cell}>{data.sets}</Text>
+            <Text style={styles.table_cell}>{data.reps}</Text>
+        </View>
+    );
+};
 
 const Workout_screen = ({ route }) => {
     const navigation = useNavigation();
@@ -44,15 +81,12 @@ const Workout_screen = ({ route }) => {
     let workout_reps = null;
     switch (data.week) {
         case 1:
-            console.log('1');
             workout_reps = [5, 5, 5, 10];
             break;
         case 2:
-            console.log('2');
             workout_reps = [3, 3, 3, 10];
             break;
         case 3:
-            console.log('3');
             workout_reps = [5, 3, 1, 10];
             break;
         case 4:
@@ -73,69 +107,52 @@ const Workout_screen = ({ route }) => {
         let newWorkout = [
             {
                 name: main_exercise,
-                sets: {
-                    set_1: {
+                data: [
+                    {
                         percentage: data.percentages[0],
                         weight: (data.percentages[0] / 100) * training_max,
                         sets: 1,
                         reps: workout_reps[0],
                     },
-                    set_2: {
+                    {
                         percentage: data.percentages[1],
                         weight: (data.percentages[1] / 100) * training_max,
                         sets: 1,
                         reps: workout_reps[1],
                     },
-                    set_3: {
+                    {
                         percentage: data.percentages[2],
                         weight: (data.percentages[2] / 100) * training_max,
                         sets: 1,
                         reps: workout_reps[2],
                     },
-                    set_BBB: {
+                    {
                         percentage: data.percentages[3],
                         weight: (data.percentages[3] / 100) * training_max,
                         sets: 5,
                         reps: workout_reps[3],
                     },
-                },
+                ],
             },
             {
                 name: 'Push up',
-                sets: {
-                    set_1: {
-                        sets: 1,
-                        reps: 50,
-                    },
-                },
+                data: [{ sets: 1, reps: 50 }],
             },
             {
                 name: 'Delt Raises',
-                sets: {
-                    set_1: {
-                        sets: 1,
-                        reps: 50,
-                    },
-                },
+                data: [{ sets: 1, reps: 50 }],
             },
             {
                 name: 'Leg Raises',
-                sets: {
-                    set_1: {
-                        sets: 1,
-                        reps: 50,
-                    },
-                },
+                data: [{ sets: 1, reps: 50 }],
             },
         ];
 
         if (data.week === 4) {
-            return newWorkout.filter(
-                (exercise) => delete exercise.sets.set_BBB
-            );
-        } else {
-            return newWorkout;
+            // delete the
+            newWorkout[0].data.pop();
         }
+        return newWorkout;
     };
     const [workout, setWorkout] = useState(() => generateWorkout());
 
@@ -153,13 +170,13 @@ const Workout_screen = ({ route }) => {
                 Week {data.week} Day {data.day}
             </Text>
 
-            <FlatList
-                data={workout}
-                renderItem={({ item }) => <ExerciseCard exercise_data={item} />}
-                keyExtractor={(item) => item.name}
-                contentContainerStyle={{ height: 85 }}
-                // horizontal={true}
-                showsVerticalScrollIndicator={false}
+            <SectionList
+                sections={workout}
+                renderItem={({ item }) => <ExerciseItem data={item} />}
+                renderSectionHeader={({ section }) => (
+                    <ExerciseHeader data={section} />
+                )}
+                scrollEnabled={false}
             />
 
             <View style={styles.btn_container}>
@@ -182,7 +199,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: FONTS.semiBold,
         fontSize: SIZES.extraLarge,
-        marginTop: 10,
+        marginTop: 60,
         textAlign: 'center',
     },
     btn_container: {
@@ -190,6 +207,21 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         alignItems: 'center',
+    },
+    exercise_text: {
+        fontFamily: FONTS.regular,
+        fontSize: SIZES.large,
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    table_row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    table_cell: {
+        fontSize: SIZES.font,
+        margin: 6,
+        alignItems: 'flex-end',
     },
 });
 
