@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "531_training",
-    "slug": "531_training",
+    "slug": "531-training",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f1a1d26-6571-4f0f-95a2-65c3f630f1ea"
+      }
+    },
+    "owner": "jasonau3"
   }
 }

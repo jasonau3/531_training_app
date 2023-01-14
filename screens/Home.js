@@ -18,17 +18,6 @@ import { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = ({ route }) => {
-    // function to store data into device
-    const storeData = async (value) => {
-        try {
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem('@storage_Key', jsonValue);
-            alert('Data saved');
-        } catch (e) {
-            // saving error
-        }
-    };
-
     useEffect(() => {
         if (route.params?.personalRecords) {
             // Update the record of each exercise
@@ -42,25 +31,34 @@ const Home = ({ route }) => {
 
     const [personalRecords, setPersonalRecords] = useState([]);
 
-    // TODO: get the stored data
-    // const getData = async () => {
-    //     try {
-    //         alert('getting data');
-    //         const jsonValue = await AsyncStorage.getItem('@storage_Key');
-    //         return jsonValue != null ? JSON.parse(jsonValue) : null;
-    //     } catch (e) {
-    //         // error reading value
-    //     }
-    // };
-    // const personalRecordData = getData();
+    // function to store data into device
+    const storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem('@personal_records', jsonValue);
+            alert('Data saved');
+        } catch (e) {
+            alert('Failed to save data');
+        }
+    };
 
-    // console.log(personalRecordData);
+    // function to get the stored data
+    const getData = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('@personal_records');
+            if (jsonValue !== null) {
+                const value = JSON.parse(jsonValue);
+                setPersonalRecords(value);
+                return value;
+            }
+        } catch (e) {
+            alert('Failed to fetch data');
+        }
+    };
 
-    // if (personalRecordData) {
-    //     setPersonalRecords(() => {
-    //         return personalRecordData;
-    //     });
-    // }
+    useEffect(() => {
+        getData();
+    }, []);
 
     // if no asynch data is found, generate it to some default
     if (Object.keys(personalRecords).length == 0) {
@@ -100,7 +98,7 @@ const Home = ({ route }) => {
                 }}
             >
                 <Image
-                    source={require('../assets/purple-heart_1f49c.png')}
+                    source={require('../assets/red_heart.png')}
                     style={{
                         width: 80,
                         height: 80,
